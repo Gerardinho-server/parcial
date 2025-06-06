@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Usuarios - SIGCOM</title>
+    <style>
+        body {
+            background-color: #1a2421;
+            color: #d4f5e1;
+            font-family: sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #a6f3b9;
+        }
+
+        form {
+            background-color: #2d4639;
+            padding: 20px;
+            border-radius: 10px;
+            margin: auto;
+            width: 70%;
+        }
+
+        input, select {
+            margin: 10px;
+            padding: 10px;
+            width: 30%;
+            border: 1px solid #6fcf97;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4caf50;
+            padding: 10px 20px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 90%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #6fa882;
+        }
+
+        th {
+            background-color: #2e8b57;
+        }
+
+        a {
+            color: #ff6666;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Gestión de Usuarios - SIGCOM</h1>
+
+<form th:action="@{/usuarios/guardar}" th:object="${usuario}" method="post">
+    <input type="text" th:field="*{nombre}" placeholder="Nombre" required />
+    <input type="email" th:field="*{correo}" placeholder="Correo" required />
+    <select th:field="*{rol}">
+        <option th:each="rol : ${roles}" th:value="${rol}" th:text="${rol}"></option>
+    </select>
+    <button type="submit">Registrar Usuario</button>
+</form>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+    </tr>
+    <tr th:each="u : ${usuarios}">
+        <td th:text="${u.id}"></td>
+        <td th:text="${u.nombre}"></td>
+        <td th:text="${u.correo}"></td>
+        <td th:text="${u.rol}"></td>
+        <td><a th:href="@{/usuarios/eliminar/{id}(id=${u.id})}">Eliminar</a></td>
+    </tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Misiones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-success-subtle">
+<div class="container py-4">
+    <h2 class="text-success mb-4">🗂 Misiones Registradas</h2>
+
+    <div class="d-flex justify-content-between mb-3">
+        <a href="/misiones/crear" class="btn btn-success">➕ Nueva Misión</a>
+        <a href="/" class="btn btn-outline-secondary">🏠 Volver al Inicio</a>
+    </div>
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-success">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Creador</th>
+                <th>Recursos</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="m : ${misiones}">
+                <td th:text="${m.id}"></td>
+                <td th:text="${m.nombre}"></td>
+                <td th:text="${m.descripcion}"></td>
+                <td th:text="${m.estado}"></td>
+                <td th:text="${m.creador != null ? m.creador.nombre : 'Sin asignar'}"></td>
+                <td>
+                    <ul class="mb-0">
+                        <li th:each="r : ${m.recursos}" th:text="${r.nombre}"></li>
+                    </ul>
+                </td>
+                <td>
+                    <a th:href="@{/misiones/eliminar/{id}(id=${m.id})}" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
