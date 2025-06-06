@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Asignar Soldado a Misión</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-success-subtle">
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-success mb-0">⚔️ Asignar Soldado a Misión</h2>
+        <a href="/" class="btn btn-outline-secondary">🏠 Volver al Inicio</a>
+    </div>
+
+    <form th:action="@{/sargento/asignar}" method="post" class="border p-4 bg-white rounded mb-4">
+        <div class="mb-3">
+            <label for="misionId" class="form-label">Seleccionar Misión</label>
+            <select class="form-select" id="misionId" name="misionId" required>
+                <option th:each="m : ${misiones}" th:value="${m.id}" th:text="${m.nombre}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="soldadoId" class="form-label">Seleccionar Soldado</label>
+            <select class="form-select" id="soldadoId" name="soldadoId" required>
+                <option th:each="s : ${soldados}" th:value="${s.id}" th:text="${s.nombre}"></option>
+            </select>
+        </div>
+
+        <div class="text-end">
+            <button type="submit" class="btn btn-success">Asignar</button>
+        </div>
+    </form>
+
+    <h4 class="text-success">🪖 Soldados Asignados por Misión</h4>
+    <div th:each="m : ${misiones}" class="mb-4">
+        <h5 class="text-dark" th:text="${m.nombre}"></h5>
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center"
+                th:each="s : ${m.soldados}">
+                <span th:text="${s.nombre}"></span>
+                <form th:action="@{/sargento/remover}" method="post" class="m-0">
+                    <input type="hidden" name="misionId" th:value="${m.id}" />
+                    <input type="hidden" name="soldadoId" th:value="${s.id}" />
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Remover</button>
+                </form>
+            </li>
+            <li class="list-group-item text-muted" th:if="${#lists.isEmpty(m.soldados)}">Sin soldados asignados</li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
